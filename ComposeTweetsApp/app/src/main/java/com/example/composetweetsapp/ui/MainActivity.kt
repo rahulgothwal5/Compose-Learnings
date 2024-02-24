@@ -3,6 +3,10 @@ package com.example.composetweetsapp.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,7 +57,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) {
-                    Box(modifier = Modifier.padding(it)){
+                    Box(modifier = Modifier.padding(it)) {
                         App()
                     }
                 }
@@ -62,29 +66,36 @@ class MainActivity : ComponentActivity() {
     }
 
 
-
-
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun App() {
+
+
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "category"){
-        composable(route = "category"){
+
+    NavHost(navController, startDestination = "category") {
+        composable(
+            route = "category",
+        ) {
             TopicScreen {
                 navController.navigate("detail/${it}")
             }
         }
-        composable(route = "detail/{category}",
+        composable(
+            route = "detail/{category}",
             arguments = listOf(
-                navArgument("category"){
+                navArgument("category") {
                     type = NavType.StringType
                 }
-            )
-        ){
+            ),
+        ) {
             DetailScreen()
         }
     }
+
+
 }
 
 
