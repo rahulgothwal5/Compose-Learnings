@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.magnifier
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomNavigation
@@ -31,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,33 +55,50 @@ class MainActivity : ComponentActivity() {
             ComposeBottomNavigationTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-                Scaffold(bottomBar = {
-                    BottomNavigationBar(
-                        items = listOf(
-                            BottomNavItem(
-                                name = "Home",
-                                route = "home",
-                                icon = Icons.Default.Home
-                            ),
-                            BottomNavItem(
-                                name = "Chat",
-                                route = "chat",
-                                icon = Icons.Default.Notifications,
-                                badgeCount = 23
-                            ),
-                            BottomNavItem(
-                                name = "Settings",
-                                route = "settings",
-                                icon = Icons.Default.Settings,
-                                badgeCount = 214
-                            ),
-                        ),
-                        navController = navController,
-                        onItemClick = {
-                            navController.navigate(it.route)
+                Scaffold(
+                    topBar = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .padding(12.dp), contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Bottom navigation bar",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
                         }
-                    )
-                }) {
+                    },
+
+                    bottomBar = {
+                        BottomNavigationBar(
+                            items = listOf(
+                                BottomNavItem(
+                                    name = "Home",
+                                    route = "home",
+                                    icon = Icons.Default.Home
+                                ),
+                                BottomNavItem(
+                                    name = "Chat",
+                                    route = "chat",
+                                    icon = Icons.Default.Notifications,
+                                    badgeCount = 23
+                                ),
+                                BottomNavItem(
+                                    name = "Settings",
+                                    route = "settings",
+                                    icon = Icons.Default.Settings,
+                                    badgeCount = 214
+                                ),
+                            ),
+                            navController = navController,
+                            onItemClick = {
+                                navController.navigate(it.route)
+                            }
+                        )
+                    }) {
                     Navigation(navController = navController)
                 }
 

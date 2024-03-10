@@ -18,8 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,35 +42,55 @@ import androidx.compose.ui.unit.sp
 import com.example.composedropdown.ui.theme.ComposeDropDownTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeDropDownTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
-                ) {
-                    DropDown(text = "Drop Down") {
+                Scaffold(
+                    topBar = {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(100.dp)
-                                .background(
-                                    Color.Green
-                                ), contentAlignment = Alignment.Center
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .padding(12.dp), contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "This is my dropDown Content",
-                                textAlign = TextAlign.Center,
+                                text = "Animated DropDown",
+                                fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp
+                                color = Color.White
                             )
                         }
 
+                    }
+                ) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize().padding(it),
+                        color = Color.Black
+                    ) {
+                        DropDown(text = "Drop Down") {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp)
+                                    .background(
+                                        Color.Green
+                                    ), contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "This is my dropDown Content",
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 20.sp
+                                )
+                            }
 
+
+                        }
                     }
                 }
+
             }
         }
     }

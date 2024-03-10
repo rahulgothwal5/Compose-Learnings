@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,112 +34,134 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.composeparallaxscroll.ui.theme.ComposeParallaxScrollTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeParallaxScrollTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                Scaffold(
+                    topBar = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .padding(12.dp), contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Parallax Effect",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+
+                    }
                 ) {
-                    val imageHeight = (LocalConfiguration.current.screenWidthDp * (2f / 3f)).dp
-                    val moonScaleSpeed = 0.08f
-                    val midBgScaleSpeed = 0.03f
-
-                    val lazyListState = rememberLazyListState()
-
-                    var moonOffset by remember {
-                        mutableStateOf(0f)
-                    }
-
-                    var midBGOffset by remember {
-                        mutableStateOf(0f)
-                    }
-
-                    val nestedScrollConnection = object : NestedScrollConnection {
-                        override fun onPreScroll(
-                            available: Offset,
-                            source: NestedScrollSource
-                        ): Offset {
-                            val delta = available.y
-                            val layoutInfo = lazyListState.layoutInfo
-
-                            if (lazyListState.firstVisibleItemIndex == 0)
-                                return Offset.Zero
-
-                            if (layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1)
-                                return Offset.Zero
-
-                            moonOffset += delta * moonScaleSpeed
-                            midBGOffset += delta * midBgScaleSpeed
-                            return return Offset.Zero
-                        }
-
-                    }
-
-                    LazyColumn(
+                    Surface(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .nestedScroll(nestedScrollConnection),
-                        state = lazyListState
-                    )
-                    {
-                        items(10) {
-                            Text("Sample item $it", modifier = Modifier.padding(5.dp))
+                            .fillMaxSize()
+                            .padding(it),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        val imageHeight = (LocalConfiguration.current.screenWidthDp * (2f / 3f)).dp
+                        val moonScaleSpeed = 0.08f
+                        val midBgScaleSpeed = 0.03f
+
+                        val lazyListState = rememberLazyListState()
+
+                        var moonOffset by remember {
+                            mutableStateOf(0f)
                         }
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(imageHeight)
-                                    .clipToBounds()
-                                    .background(
-                                        Brush.verticalGradient(
-                                            listOf(
-                                                Color(0xFFf36b21),
-                                                Color(0xFFf9a521)
+
+                        var midBGOffset by remember {
+                            mutableStateOf(0f)
+                        }
+
+                        val nestedScrollConnection = object : NestedScrollConnection {
+                            override fun onPreScroll(
+                                available: Offset,
+                                source: NestedScrollSource
+                            ): Offset {
+                                val delta = available.y
+                                val layoutInfo = lazyListState.layoutInfo
+
+                                if (lazyListState.firstVisibleItemIndex == 0)
+                                    return Offset.Zero
+
+                                if (layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1)
+                                    return Offset.Zero
+
+                                moonOffset += delta * moonScaleSpeed
+                                midBGOffset += delta * midBgScaleSpeed
+                                return return Offset.Zero
+                            }
+
+                        }
+
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .nestedScroll(nestedScrollConnection),
+                            state = lazyListState
+                        )
+                        {
+                            items(10) {
+                                Text("Sample item $it", modifier = Modifier.padding(5.dp))
+                            }
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(imageHeight)
+                                        .clipToBounds()
+                                        .background(
+                                            Brush.verticalGradient(
+                                                listOf(
+                                                    Color(0xFFf36b21),
+                                                    Color(0xFFf9a521)
+                                                )
                                             )
                                         )
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_moonbg),
+                                        contentDescription = "moon",
+                                        contentScale = ContentScale.FillWidth,
+                                        alignment = Alignment.BottomCenter,
+                                        modifier = Modifier
+                                            .matchParentSize()
+                                            .graphicsLayer { translationY = moonOffset }
                                     )
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_moonbg),
-                                    contentDescription = "moon",
-                                    contentScale = ContentScale.FillWidth,
-                                    alignment = Alignment.BottomCenter,
-                                    modifier = Modifier
-                                        .matchParentSize()
-                                        .graphicsLayer { translationY = moonOffset }
-                                )
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_midbg),
-                                    contentDescription = "mid bg",
-                                    contentScale = ContentScale.FillWidth,
-                                    alignment = Alignment.BottomCenter,
-                                    modifier = Modifier
-                                        .matchParentSize()
-                                        .graphicsLayer { translationY = midBGOffset }
-                                )
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_outerbg),
-                                    contentDescription = "outer bg",
-                                    contentScale = ContentScale.FillWidth,
-                                    alignment = Alignment.BottomCenter,
-                                    modifier = Modifier.matchParentSize()
-                                )
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_midbg),
+                                        contentDescription = "mid bg",
+                                        contentScale = ContentScale.FillWidth,
+                                        alignment = Alignment.BottomCenter,
+                                        modifier = Modifier
+                                            .matchParentSize()
+                                            .graphicsLayer { translationY = midBGOffset }
+                                    )
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_outerbg),
+                                        contentDescription = "outer bg",
+                                        contentScale = ContentScale.FillWidth,
+                                        alignment = Alignment.BottomCenter,
+                                        modifier = Modifier.matchParentSize()
+                                    )
+                                }
+                            }
+                            items(20) {
+                                Text("New item $it", modifier = Modifier.padding(5.dp))
                             }
                         }
-                        items(20) {
-                            Text("New item $it", modifier = Modifier.padding(5.dp))
-                        }
                     }
-
                 }
             }
         }

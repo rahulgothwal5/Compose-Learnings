@@ -4,12 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,23 +42,44 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTimerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
+                Scaffold(
+                    topBar = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(color = MaterialTheme.colorScheme.primary)
+                                .padding(12.dp), contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Custom Timer",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+
+                    }
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Timer(
-                            totalTime = 100L * 1000L,
-                            handleColor = Color.Green,
-                            inactiveBarColor = Color.DarkGray,
-                            activeBarColor = Color.Green,
-                            modifier = Modifier.size(200.dp)
-                        )
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it),
+                        color = Color.Black
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Timer(
+                                totalTime = 100L * 1000L,
+                                handleColor = Color.Green,
+                                inactiveBarColor = Color.DarkGray,
+                                activeBarColor = Color.Green,
+                                modifier = Modifier.size(200.dp)
+                            )
+                        }
                     }
                 }
             }

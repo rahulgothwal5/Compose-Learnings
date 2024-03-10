@@ -30,7 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import c.AppBar
+import com.example.composebottomsheetandnavdrawer.ui.AppBar
 import com.example.composebottomsheetandnavdrawer.ui.DrawerBody
 import com.example.composebottomsheetandnavdrawer.ui.DrawerHeader
 import com.example.composebottomsheetandnavdrawer.ui.MyNavDrawer

@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AppBar(onNavigationIconClick: () -> Unit) {
     TopAppBar(
-        title = { Text(text = "Compose Learning") },
+        title = { Text(text = "BottomSheet & NavDrawer") },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.primary,

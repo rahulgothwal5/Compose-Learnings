@@ -10,8 +10,11 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,9 +39,35 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Box(modifier = Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
-                CircularProgressBar(maxValue = 5000, percentage = .5f)
+            Scaffold(
+                topBar = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = MaterialTheme.colorScheme.primary)
+                            .padding(12.dp), contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Circular Progress Bar",
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+
+                }
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
+                        .padding(it),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressBar(maxValue = 5000, percentage = .5f)
+                }
             }
+
         }
     }
 }
