@@ -16,8 +16,6 @@ Compose-Learnings is designed to provide examples and learning resources for bui
 
 ## Screenshots
 
-## Screenshots
-
 <div style="display: flex; flex-wrap: wrap;">
     <img src="screenshot/Screenshot_1710074982.png" alt="Screenshot 1" width="200" height="400" style="margin-right: 10px;">
     <img src="screenshot/Screenshot_1710075122.png" alt="Screenshot 2" width="200" height="400" style="margin-right: 10px;">
